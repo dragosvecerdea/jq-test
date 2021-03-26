@@ -1,12 +1,15 @@
 const { exec } = require('child_process');
 const path = require('path');
+const { stdout } = require('process');
+const { promisify } = require('util')
 
-const run = (script, pathToInput , args) => {
-    exec(`cat ${pathToInput} | ${script} "${args}"`, (...args) => {
-        console.log(args[1])
-    });
+const execAsync = promisify(exec)
+
+const runScript = async (script, pathToInput , args) => {
+    const {stdout} = await execAsync(`cat ${pathToInput} | ${script} "${args}"`)
+    return stdout
 }
 
 module.exports = {
-    run
+    runScript
 }
