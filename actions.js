@@ -11,7 +11,7 @@ const testAction  = async (pathToTests) => {
         filters.forEach(async filter => {
             const jqOutput = await runScript('jq', path.join(pathToTests,inputFile) , filter)
             const jqCloneOutput = await runScript('jq-clone',path.join(pathToTests,inputFile), filter)
-            console.log(`Filter ${filter} ${jqOutput == jqCloneOutput ? "PASSED" : "FAILED"}`)
+            console.log(`${jqOutput == jqCloneOutput ? "PASSED" : "FAILED"}  Filter : ${filter}`)
         })
     })
 }
