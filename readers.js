@@ -9,7 +9,8 @@ const readFileAsync = promisify(fs.readFile)
 const testSetReader = async (pathToTests) => {
     let testSet = {}
     const files = await readDirAsync(pathToTests)
-    files.forEach(function (file) {
+    files.filter((file) => fs.statSync(path.join(pathToTests,file)).isFile())
+    .forEach(function (file) {
         const testType = path.parse(file).name.split('_')[0]
         const testKey  = path.parse(file).name.split('_')[1]
         testSet = {
@@ -23,6 +24,11 @@ const testSetReader = async (pathToTests) => {
     return testSet
 }
 
+const dirReader = async (pathToTests) => {
+    const files = await readDirAsync(pathToTests)
+    return files.filter((file) => fs.statSync(path.join(pathToTests,file)).isDirectory())
+}
+
 const filtersReader = async (pathToFilters) => {
     filters = await readFileAsync(pathToFilters).then((data) => data.toString().split('\n'))
     return filters
@@ -30,5 +36,6 @@ const filtersReader = async (pathToFilters) => {
 
 module.exports = {
     testSetReader,
-    filtersReader
+    filtersReader,
+    dirReader
 }
