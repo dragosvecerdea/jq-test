@@ -1,0 +1,5 @@
+.foo[1,2][:2][]["bar"]
+.bar.foo
+.["bar"]["foo"]
+.bar | .foo
+.somekey?

@@ -8,8 +8,8 @@ const test = async (testName, testSet, pathToTests) => {
     let passed = 0;
     const filters = await filtersReader(path.join(pathToTests,testSet[testName].filters))
     for (filter of filters) {
-        const jqOutput = await runScript('jq', path.join(pathToTests,inputFile) , filter)
-        const jqCloneOutput = await runScript('jq-clone',path.join(pathToTests,inputFile), filter)
+        const jqOutput = await runScript('jq', path.join(pathToTests,inputFile) , filter.replace(/[\\$'"]/g, "\\$&"))
+        const jqCloneOutput = await runScript('jq-clone',path.join(pathToTests,inputFile), filter.replace(/[\\$'"]/g, "\\$&"))
         const isPass = jqOutput == jqCloneOutput
         passed += (isPass ? 1 : 0)
         isPass ? null : 
